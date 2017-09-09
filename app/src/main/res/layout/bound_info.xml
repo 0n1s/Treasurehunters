@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="10dp"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <com.beardedhen.androidbootstrap.BootstrapLabel
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/imageView11"
+        android:text="Bound name" />
+
+    <com.beardedhen.androidbootstrap.BootstrapLabel
+        android:id="@+id/textView25"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentLeft="true"
+        app:bootstrapBrand="info"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView11"
+        android:text="Ratings" />
+
+
+
+    <RatingBar
+        android:id="@+id/ratingBar5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_below="@+id/textView13"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Overall rating"
+        android:layout_below="@+id/textView25"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:id="@+id/ratingBar6"
+        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView14"
+        android:layout_alignLeft="@+id/ratingBar5"
+        android:layout_alignStart="@+id/ratingBar5" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fun"
+        android:layout_below="@+id/ratingBar5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Variety"
+        android:layout_below="@+id/ratingBar6"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:id="@+id/ratingBar7"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ratingBar6"
+        android:layout_alignRight="@+id/ratingBar6"
+        android:layout_below="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingBar7"
+        android:text="Interesting places"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:id="@+id/ratingBar8"
+        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ratingBar7"
+        android:layout_alignRight="@+id/ratingBar7"
+        android:layout_below="@+id/textView16" />
+
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Difficulty"
+        android:layout_below="@+id/ratingBar8"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:id="@+id/ratingBar9"
+        android:layout_width="wrap_content"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ratingBar8"
+        android:layout_alignStart="@+id/ratingBar8"
+        android:layout_below="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ratingBar9"
+        android:text="Educational"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:id="@+id/ratingBar10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ratingBar9"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_alignRight="@+id/ratingBar9"
+        android:layout_below="@+id/textView18" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:layout_width="wrap_content"
+        android:id="@+id/send"
+        android:layout_below="@+id/ratingBar10"
+        android:layout_centerHorizontal="true"
+        app:roundedCorners="true"
+        android:text="Continue..."
+        android:layout_margin="10dp"
+        app:bootstrapBrand="success"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

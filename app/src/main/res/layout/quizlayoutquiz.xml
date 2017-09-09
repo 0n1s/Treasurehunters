@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <com.beardedhen.androidbootstrap.BootstrapLabel
+        android:id="@+id/textView26"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bootstrapBrand="primary"
+        android:text="Answer the question to proceed"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+
+
+
+
+    <br.tiagohm.markdownview.MarkdownView
+        android:id="@+id/textView35"
+        app:escapeHtml="false"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="23dp"
+        android:text="Did this movie reach box office ?"
+        android:layout_below="@+id/textView26"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+       />
+
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/textView35"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+
+        android:padding="10dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/textInputLayout">
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="your answer"
+             />
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:roundedCorners="true"
+        app:bootstrapBrand="primary"
+android:layout_below="@+id/textInputLayout"
+        android:text="Next !"
+        android:layout_centerHorizontal="true" />
+
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:id="@+id/cordinatorlayout"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        >
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:id="@+id/listview"
+        android:layout_above="@+id/button7"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textInputLayout"
+        android:layout_centerHorizontal="true" />
+
+
+</RelativeLayout>
