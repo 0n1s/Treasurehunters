@@ -143,12 +143,7 @@ public class ActionBound extends AppCompatActivity
                     public void onClick(View v) {
                         int position = getAdapterPosition();
 
-//                        final Intent intent = new Intent(MainActivity.this, Phonnumber.class);
-                        // Toast.makeText(MainActivity.this, phone, Toast.LENGTH_SHORT).show();
 
-                        /// rememeber to uncomment this later
-
-                        // Toast.makeText(MainActivity.this, phone, Toast.LENGTH_SHORT).show();
                         if (!InternetConnection.checkConnection(ActionBound.this))
                         {
                             TastyToast.makeText(ActionBound.this, "Please enable your data connection", TastyToast.CONFUSING, TastyToast.LENGTH_LONG).show();
@@ -161,8 +156,7 @@ public class ActionBound extends AppCompatActivity
                                     startActivity(new Intent(ActionBound.this, QrScanner.class));
                                     break;
                                 case 2:
-//                                    startActivity(new Intent(ActionBound.this, Etc_main_page.class)
-//                                            .putExtra("action", "location")
+
                                             startActivity(new Intent(ActionBound.this, BoundActivity.class)
                                                     .putExtra("activity_name","Bounds Nearby")
                                                     .putExtra("latitude",latitude)
@@ -258,23 +252,75 @@ public class ActionBound extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_camera)
+        {
+            startActivity(new Intent(ActionBound.this, FindBound.class));
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_gallery)
+        {
+            startActivity(new Intent(ActionBound.this, QrScanner.class));
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_slideshow)
+        {
+            startActivity(new Intent(ActionBound.this, BoundActivity.class)
+                    .putExtra("activity_name","Bounds Nearby")
+                    .putExtra("latitude",latitude)
+                    .putExtra("longtitude",longtitude)
+                    .putExtra("search_field","nearby"));
 
-        } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_manage)
+        {
+            startActivity(new Intent(ActionBound.this, Etc_main_page.class)
+                    .putExtra("action", "settings")
+            );
+
+        } else if (id == R.id.nav_share)
+        {
+            startActivity(new Intent(ActionBound.this, Etc_main_page.class)
+                    .putExtra("action", "info") );
+
+        } else if (id == R.id.nav_send)
+        {
 
         }
+
+        /*
+         case 0:
+                                    startActivity(new Intent(ActionBound.this, FindBound.class));
+                                    break;
+                                case 1:
+                                    startActivity(new Intent(ActionBound.this, QrScanner.class));
+                                    break;
+                                case 2:
+
+                                            startActivity(new Intent(ActionBound.this, BoundActivity.class)
+                                                    .putExtra("activity_name","Bounds Nearby")
+                                                    .putExtra("latitude",latitude)
+                                                    .putExtra("longtitude",longtitude)
+                                                    .putExtra("search_field","nearby"));
+
+
+
+                                    break;
+
+                                case 3:
+                                    startActivity(new Intent(ActionBound.this, Etc_main_page.class)
+                                            .putExtra("action", "settings")
+                                    );
+                                    break;
+                                case 4:
+                                    startActivity(new Intent(ActionBound.this, Etc_main_page.class)
+                                            .putExtra("action", "info")
+                                    );
+                                    break;
+         */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
