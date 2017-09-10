@@ -65,8 +65,8 @@ public class BoundsAdapter extends RecyclerView.Adapter<BoundsAdapter.ViewHolder
         holder.bound_name.setText(boundsData.getBound_name());
         holder.bound_description.setText(boundsData.getBound_description());
         holder.bound_category.setText(boundsData.getBound_category());
-        holder.bounds_length.setText(boundsData.getBounds_length());
-
+        holder.bounds_length.setText(boundsData.getBounds_length() +" Kilometres");
+        holder.bound_distance.setText("Approx "+boundsData.getBounds_duration()+" Minutes");
         //Toast.makeText(context, "sd", Toast.LENGTH_SHORT).show();
 
         Random r = new Random();
@@ -89,18 +89,11 @@ public class BoundsAdapter extends RecyclerView.Adapter<BoundsAdapter.ViewHolder
                             @Override
                             public void onResponse(String response)
                             {
-
-
-                              //  Toast.makeText(context, boundsData.getBound_id(), Toast.LENGTH_SHORT).show();
                                 progress.dismiss();
-
                                 previous=0;
                                 bound_id=boundsData.getBound_id();
                                 total_points=0.0;
-
-//                                Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
-
-
+//                               Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
                                 Intent intent= new Intent(context, ChooseStage_FinishBound.class)
                                         .putExtra("bound_name",boundsData.getBound_name())
                                         .putExtra("data",response)
@@ -177,19 +170,22 @@ try {
         public TextView bound_category;
         public TextView bounds_length;
         public ImageView boundslogo;
+        public TextView bound_distance;
         public RatingBar ratingBar;
         public RelativeLayout boundRelativeLayout;
 
 
 
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView)
+        {
             super(itemView);
             bound_name=(TextView)itemView.findViewById(R.id.bootstrapLabel);
             bound_description=(TextView)itemView.findViewById(R.id.textView2);
             boundslogo=(ImageView)itemView.findViewById(R.id.imageView2);
             bound_category=(TextView)itemView.findViewById(R.id.Singleplayer);
             bounds_length=(TextView)itemView.findViewById(R.id.textView51);
+            bound_distance=(TextView) itemView.findViewById(R.id.textView3);
             ratingBar=(RatingBar)itemView.findViewById(R.id.ratingBar);
             boundRelativeLayout= (RelativeLayout)itemView.findViewById(R.id.boundRelativeLayout);
         }

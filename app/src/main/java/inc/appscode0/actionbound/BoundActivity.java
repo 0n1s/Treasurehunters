@@ -87,10 +87,8 @@ public class BoundActivity extends AppCompatActivity {
         progressDialog.setMessage("Processing your request");
         progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
-        //StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://actionbound.herokuapp.com/getCategoryBounds?category="+parameter,
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://actionbound.herokuapp.com/getNearbyBounds?lat="+latitude+"&long="+longtitude,
-
-                new Response.Listener<String>() {
+                        new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         progressDialog.cancel();
@@ -143,7 +141,7 @@ public class BoundActivity extends AppCompatActivity {
                                     String url=e.getString("bound_image");
                                     String play_mode=e.getString("play_mode");
 
-
+                                    //bounds_duration
 
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString("bound_id", bound_id);
@@ -299,7 +297,7 @@ new TastyToast().makeText(BoundActivity.this, "No bound found", TastyToast.LENGT
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressDialog.dismiss();
-                Toast.makeText(mContext, "Server Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, String.valueOf(error), Toast.LENGTH_SHORT).show();
             }
         });
 

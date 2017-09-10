@@ -130,7 +130,7 @@
         android:id="@+id/textView51"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="TextTTextVieTextViewwextViewView"
         android:layout_alignBottom="@+id/imageView6"
         android:layout_toRightOf="@+id/imageView6"
         android:layout_toEndOf="@+id/imageView6" />

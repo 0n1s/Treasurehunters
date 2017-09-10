@@ -82,7 +82,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import static inc.appscode0.actionbound.BoundsAdapter.bound_id;
 
 public class ChooseStage_FinishBound extends AppCompatActivity {
-
     public static final String MyPREFERENCES = "MyPrefs";
     public static int qrcode = 0;
     public static Double total_points;
@@ -99,13 +98,9 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
     static int length;
     static String bound_id, bid;
     static String url;
-
     static Fragment fragment;
     SharedPreferences sharedpreferences;
-
-
     String[] order;
-
     public static String getDeviceId(Context context)
     {
         String android_id = Settings.Secure.getString(context.getContentResolver(),
@@ -405,7 +400,6 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
                 public void onClick(View v) {
                     //Toast.makeText(getActivity(), bound_id, Toast.LENGTH_SHORT).show();
                     send_date(
-
                             String.valueOf(bound_id),
                             "",
                             ratingBaroverall.getNumStars(),
@@ -424,7 +418,7 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
         public void send_date(final String boundid,
                               final String feedback,
                               float or,
-                              float funr,
+                              final float funr,
                               final float varietyr,
                               final float intrestingr,
                               final float difficult,
@@ -465,11 +459,11 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
                     }) {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("id", "1");
-                    params.put("user_id", "1");
+
                     params.put("bound_id", boundid);
-                    params.put("fun", "");
-                    params.put("variety", "");
+                    params.put("user_id", "1");
+                    params.put("fun", Float.toString(funr));
+                    params.put("variety", Float.toString(varietyr));
                     params.put("interesting_places", Float.toString(intrestingr));
                     params.put("difficulty", Float.toString(difficult));
                     params.put("educational", Float.toString(education));
@@ -1115,13 +1109,15 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.bound_info, container, false);
+          final  View rootView = inflater.inflate(R.layout.bound_info, container, false);
             //((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(bound_name);
-BootstrapLabel bs=(BootstrapLabel)rootView.findViewById(R.id.textView11) ;
+            BootstrapLabel bs=(BootstrapLabel)rootView.findViewById(R.id.textView11) ;
             bs.setText(bound_name);
             Random r = new Random();
             int Random =10 +  (int)(Math.random()*(91));
             float Rand=0+(float)(Math.random()*6);
+
+
 
 
 
@@ -1143,42 +1139,181 @@ BootstrapLabel bs=(BootstrapLabel)rootView.findViewById(R.id.textView11) ;
 
 
 
-            final RatingBar ratingBaroverall, ratingBarfun, ratingBarvariety, ratingBarintresting, ratingBardifficult, ratingBareducational;
-            ratingBaroverall = (RatingBar) rootView.findViewById(R.id.ratingBar5);
-            ratingBaroverall.setRating((int)Rand);
 
-            ratingBarfun = (RatingBar) rootView.findViewById(R.id.ratingBar6);
-            Rand=0+(float)(Math.random()*6);
-            ratingBarfun.setRating((int)Rand);
-
-            ratingBarvariety = (RatingBar) rootView.findViewById(R.id.ratingBar7);
-            Rand=0+(float)(Math.random()*6);
-            ratingBarvariety.setRating((int)Rand);
-
-            ratingBarintresting = (RatingBar) rootView.findViewById(R.id.ratingBar8);
-            Rand=0+(float)(Math.random()*6);
-            ratingBarintresting.setRating((int)Rand);
-
-            ratingBardifficult = (RatingBar) rootView.findViewById(R.id.ratingBar10);
-            Rand=0+(float)(Math.random()*6);
-            ratingBardifficult.setRating((int)Rand);
-
-            ratingBareducational = (RatingBar) rootView.findViewById(R.id.ratingBar9);
-            Rand=0+(float)(Math.random()*6);
-            ratingBareducational.setRating((int)Rand);
 
             BootstrapButton send = (BootstrapButton) rootView.findViewById(R.id.send);
 
-            send.setOnClickListener(new View.OnClickListener() {
+
+
+            final ProgressDialog progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Fetching ratings");
+            progressDialog.show();
+            RequestQueue queue = Volley.newRequestQueue(getActivity());
+
+            url = "http://actionbound.herokuapp.com/getRatings";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
-                public void onClick(View v) {
-                    Fragment fragment3 = new FragmentRegsterMembers();
-                    FragmentManager fm2 = getFragmentManager();
-                    FragmentTransaction ft2 = fm2.beginTransaction();
-                    ft2.replace(R.id.fragment_place, fragment3);
-                    ft2.commit();
+                public void onResponse(String response)
+                {
+                    progressDialog.cancel();
+
+/*
+{
+"status": 1,
+"data": {
+"user": "Chris",
+"fun": null,
+"variety": null,
+"interesting_places": null,
+"difficulty": null,
+"educational": null,
+"overall_rating": 0
+},
+"message": "Success"
+}
+ */
+
+
+
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String status = jsonObject.getString("status");
+
+                        if(status.equals("1")) {
+
+                            String data = jsonObject.getString("data");
+                            JSONArray json2 = new JSONArray(data);
+
+
+                            String fun="",
+                             overall_rating="",
+                             variety="",
+                             interesting_places= "",
+                             educational= "",
+                             difficulty= "";
+
+
+
+                            for (int i = 0; i < json2.length(); i++)
+                            {
+                                JSONObject e = json2.getJSONObject(i);
+                                 fun= e.getString("fun");
+                                 overall_rating= e.getString("overall_rating");
+                                 variety= e.getString("variety");
+                                 interesting_places= e.getString("interesting_places");
+                                 educational= e.getString("educational");
+                                 difficulty= e.getString("difficulty");
+
+
+                            }
+
+                            final RatingBar ratingBaroverall, ratingBarfun, ratingBarvariety, ratingBarintresting, ratingBardifficult, ratingBareducational;
+
+                            if(!overall_rating.equals(null))
+                            {
+                                ratingBaroverall = (RatingBar) rootView.findViewById(R.id.ratingBar5);
+                                ratingBaroverall.setRating(Integer.parseInt(overall_rating));
+                            }
+
+                            if(!fun.equals(null))
+                            {
+                                ratingBarfun = (RatingBar) rootView.findViewById(R.id.ratingBar6);
+                                ratingBarfun.setRating(Integer.parseInt(fun));
+                            }
+
+
+                            if(!variety.equals(null))
+                            {
+                                ratingBarvariety = (RatingBar) rootView.findViewById(R.id.ratingBar7);
+                                ratingBarvariety.setRating(Integer.parseInt(variety));
+                            }
+
+                            if(!interesting_places.equals(null))
+                            {
+                                ratingBarintresting = (RatingBar) rootView.findViewById(R.id.ratingBar8);
+                                ratingBarintresting.setRating(Integer.parseInt(interesting_places));
+                            }
+
+                            if(!difficulty.equals(null))
+                            {
+                                ratingBardifficult = (RatingBar) rootView.findViewById(R.id.ratingBar10);
+                                ratingBardifficult.setRating(Integer.parseInt(difficulty));
+                            }
+
+
+                            if(!educational.equals(null))
+                            {
+                                ratingBareducational = (RatingBar) rootView.findViewById(R.id.ratingBar9);
+                                ratingBareducational.setRating(Integer.parseInt(educational));
+                            }
+
+
+
+                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
-            });
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progressDialog.cancel();
+
+                }
+            })
+
+            {
+                @Override
+                protected Map<String, String> getParams()
+                {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("bound_id", bound_id);
+                    return params;
+                }
+            };
+
+            queue.add(postRequest);
+
+
+                    send.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Fragment fragment3 = new FragmentRegsterMembers();
+                            FragmentManager fm2 = getFragmentManager();
+                            FragmentTransaction ft2 = fm2.beginTransaction();
+                            ft2.replace(R.id.fragment_place, fragment3);
+                            ft2.commit();
+                        }
+                    });
 
 
 
