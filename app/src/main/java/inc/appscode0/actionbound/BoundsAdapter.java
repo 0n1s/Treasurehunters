@@ -97,7 +97,7 @@ public class BoundsAdapter extends RecyclerView.Adapter<BoundsAdapter.ViewHolder
                                 Intent intent= new Intent(context, ChooseStage_FinishBound.class)
                                         .putExtra("bound_name",boundsData.getBound_name())
                                         .putExtra("data",response)
-.putExtra("bound_name", boundsData.getBound_name())
+                                        .putExtra("bound_name", boundsData.getBound_name())
                                         .putExtra("bound_id",boundsData.getBound_id())
                                         .putExtra("url",boundsData.getUrl())
                                         .putExtra("single",boundsData.getBound_category())

@@ -91,6 +91,7 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
             quiz_points,
             quiz_solution,
             quiz_answerRequierd, quiz_hint, quiz_image;
+    public static String team_namename;
     static String data;
     static String play_mode;
     static int previous, start_node;
@@ -139,7 +140,8 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
 
 
 
-        } else {
+        } else
+            {
 
             String ssd = null;
             try {
@@ -407,7 +409,7 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
                             ratingBarvariety.getNumStars(),
                             ratingBarintresting.getNumStars(),
                             ratingBardifficult.getNumStars(),
-                            ratingBareducational.getNumStars()
+                            ratingBareducational.getNumStars(), team_namename
 
                     );
                 }
@@ -422,7 +424,8 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
                               final float varietyr,
                               final float intrestingr,
                               final float difficult,
-                              final float education) {
+                              final float education,
+        final String team_namename) {
 
             final ProgressDialog progress = new ProgressDialog(getActivity());
             progress.setMessage("Saving your ratings");
@@ -504,6 +507,7 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put("device_id", getDeviceId(getActivity()));
                     params.put("bound_id", bid);
+                    params.put("player", team_namename);
                     params.put("points", Double.toString(total_points));
                     return params;
                 }
@@ -528,9 +532,12 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
                                  Bundle savedInstanceState) {
 
     if(play_mode.equals("single_player"))
+
     {
         View rootView = inflater.inflate(R.layout.activity_start_bounds__play, container, false);
     //    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle();
+
+
 
         team_name=(BootstrapEditText)rootView.findViewById(R.id.editText) ;
         textView7 =(AwesomeTextView)rootView.findViewById(R.id.textView7);
@@ -549,13 +556,13 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
            @Override
            public void onClick(View v)
            {
-               String team_nam, teamone, teamtwo;
+               String  teamone, teamtwo;
 
-               team_nam=team_name.getText().toString();
-               if(!team_nam.isEmpty())
+               team_namename=team_name.getText().toString();
+               if(!team_namename.isEmpty())
                {
                   // Toast.makeText(getActivity(), bound_id, Toast.LENGTH_SHORT).show();
-                   save_team(team_nam,"", bound_id);
+                   save_team(team_namename,"", bound_id);
                }
            }
        });
@@ -590,11 +597,11 @@ public class ChooseStage_FinishBound extends AppCompatActivity {
             {
                 String team_nam, teamone, teamtwo;
 
-                team_nam=team_name.getText().toString();
+                team_namename=team_name.getText().toString();
                 teamone=team_memberone.getText().toString()+","+team_membertwo.getText().toString()+","+team_member_three.getText().toString();
 
-              if(confirm_names(team_nam, teamone))
-                  save_team(teamone,team_nam, bound_id);
+              if(confirm_names(team_namename, teamone))
+                  save_team(teamone,team_namename, bound_id);
 
 //                if(!team_nam.isEmpty()||!team_memberone.getText().toString().isEmpty())
 //                {

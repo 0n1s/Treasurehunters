@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -38,7 +39,7 @@ import org.json.JSONObject;
 
 public class ActionBound extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    public static SharedPreferences sharedpreferences;
     Double latitude=0.000, longtitude=0.00;
     RecyclerView recyclerView;
     GridView grid;
@@ -283,11 +284,12 @@ public class ActionBound extends AppCompatActivity
 
         } else if (id == R.id.nav_share)
         {
+
+
+        } else if (id == R.id.info)
+        {
             startActivity(new Intent(ActionBound.this, Etc_main_page.class)
                     .putExtra("action", "info") );
-
-        } else if (id == R.id.nav_send)
-        {
 
         }
 

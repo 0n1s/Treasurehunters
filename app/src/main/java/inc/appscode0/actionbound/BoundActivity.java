@@ -37,6 +37,7 @@ public class BoundActivity extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPrefs";
     SharedPreferences sharedpreferences;
     RecyclerView.LayoutManager layoutManager;
+    String actvity_title;
     SharedPreferences sharedPreferences;
     public List<BoundsData> listitems;
     @Override
@@ -50,7 +51,7 @@ public class BoundActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         Intent intent = getIntent();
-        String actvity_title=intent.getStringExtra("activity_name");
+         actvity_title=intent.getStringExtra("activity_name");
         getSupportActionBar().setTitle(actvity_title);
         String search_field=intent.getStringExtra("search_field");
 
@@ -61,6 +62,7 @@ public class BoundActivity extends AppCompatActivity {
             search_nearby(longtitude,latitude);
         }
         else {
+
             search(search_field);
             sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
             mContext = getApplicationContext();
@@ -201,7 +203,16 @@ public class BoundActivity extends AppCompatActivity {
         progressDialog.setMessage("Processing your request");
         progressDialog.show();
         RequestQueue queue = Volley.newRequestQueue(this);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://actionbound.herokuapp.com/getCategoryBounds?category="+parameter,
+        String url="http://actionbound.herokuapp.com/getCategoryBounds?category=";
+        if(actvity_title.equals("My Bounds"))
+        {
+            url="http://actionbound.herokuapp.com/getMyBounds?user_id=";
+        }
+
+        //Toast.makeText(mContext, String.valueOf(url), Toast.LENGTH_SHORT).show();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url+parameter,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

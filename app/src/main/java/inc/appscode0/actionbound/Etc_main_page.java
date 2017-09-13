@@ -7,9 +7,11 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,6 +42,9 @@ import java.util.Map;
 
 public class Etc_main_page extends AppCompatActivity {
 
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static  SharedPreferences sharedpreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +59,9 @@ public class Etc_main_page extends AppCompatActivity {
         String action = intent.getStringExtra("action");
       //  Toast.makeText(this, action, Toast.LENGTH_SHORT).show();
 
+
+
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         if(action.equals("settings"))
         {
             Fragment fr;
@@ -110,17 +119,64 @@ public class Etc_main_page extends AppCompatActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Settings");
-            BootstrapEditText usernamebootstrapEditText= (BootstrapEditText)rootView.findViewById(R.id.editText10);
-            BootstrapEditText passwordbootstrapEditText= (BootstrapEditText)rootView.findViewById(R.id.editText10);
-            BootstrapButton bootstrapButton= (BootstrapButton)rootView.findViewById(R.id.button8);
-            BootstrapButton bootstrapButtonsignup= (BootstrapButton)rootView.findViewById(R.id.button8);
+            final BootstrapEditText usernamebootstrapEditText= (BootstrapEditText)rootView.findViewById(R.id.editText10);
+            final BootstrapEditText passwordbootstrapEditText= (BootstrapEditText)rootView.findViewById(R.id.editText11);
+           final BootstrapButton bootstrapButton= (BootstrapButton)rootView.findViewById(R.id.button8);
+            final BootstrapButton bootstrapButtonsignup= (BootstrapButton)rootView.findViewById(R.id.button9);
+            final BootstrapButton logout=(BootstrapButton)rootView.findViewById(R.id.button14);
+            logout.setVisibility(View.GONE);
+            final TextView loggedinas=(TextView)rootView.findViewById(R.id.textView50);
+            String is_logged_in = sharedpreferences.getString("logged_in","false");
+            loggedinas.setVisibility(View.GONE);
+            if(is_logged_in.equals("true"))
+            {
+                usernamebootstrapEditText.setVisibility(View.GONE);
+                passwordbootstrapEditText.setVisibility(View.GONE);
+                bootstrapButton.setVisibility(View.GONE);
+                bootstrapButtonsignup.setVisibility(View.GONE);
+                logout.setVisibility(View.VISIBLE);
+                loggedinas.setVisibility(View.VISIBLE);
+                String username=sharedpreferences.getString("username", "username");
+                loggedinas.setText("You are logged in as "+username);
+            }
 
-           final String username=usernamebootstrapEditText.getText().toString();
-            final String password=passwordbootstrapEditText.getText().toString();
+            logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("logged_in", "false");
+                    editor.putString("username", "null");
+                    editor.putString("user_id", "null");
+                    editor.putString("profile_photo", "null");
+                    editor.commit();
+                    getActivity().finish();
+                }
+            });
+
+            bootstrapButtonsignup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    String url = "http://actionbound.herokuapp.com/register";
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+
+                }
+            });
 
             bootstrapButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+
+                    final String username=usernamebootstrapEditText.getText().toString();
+                     final String password=passwordbootstrapEditText.getText().toString();
+
+
+
+
+
                     final ProgressDialog progress = new ProgressDialog(getActivity());
                     progress.setMessage("Signing you in");
                     progress.show();
@@ -130,24 +186,44 @@ public class Etc_main_page extends AppCompatActivity {
                                 public void onResponse(String response) {
                                     progress.dismiss();
 
+                                  //  Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
 
                                     try {
                                         JSONObject json = new JSONObject(response);
                                         String ssd = json.getString("success");
 
-                                        if (ssd.equals("0")) {
+                                        if (ssd.equals("0"))
+                                        {
 
                                             TastyToast.makeText(getActivity(), "Login failed. Please try again", TastyToast.LENGTH_SHORT, TastyToast.ERROR).show();
                                         } else
                                         {
+                                            String username = json.getString("username");
+                                            String user_id = json.getString("user_id");
+                                            String profile_photo = json.getString("profile_photo");
 
 
+                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                            editor.putString("logged_in", "true");
+                                            editor.putString("username", username);
+                                            editor.putString("user_id", user_id);
+                                            editor.putString("profile_photo", profile_photo);
+                                            editor.commit();
+
+                                            usernamebootstrapEditText.setVisibility(View.GONE);
+                                            passwordbootstrapEditText.setVisibility(View.GONE);
+                                            bootstrapButton.setVisibility(View.GONE);
+                                            bootstrapButtonsignup.setVisibility(View.GONE);
+                                            logout.setVisibility(View.VISIBLE);
+                                            loggedinas.setVisibility(View.VISIBLE);
+                                            loggedinas.setText("You are logged in as "+username);
 
                                         }
 
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                    } catch (JSONException e)
+                                    {
+                                       // Toast.makeText(getActivity(), String.valueOf(e), Toast.LENGTH_SHORT).show();
                                     }
 
                                 }
@@ -155,7 +231,10 @@ public class Etc_main_page extends AppCompatActivity {
                             new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
+
                                     progress.dismiss();
+
+                                    Toast.makeText(getActivity(), String.valueOf(error), Toast.LENGTH_SHORT).show();
 
                                 }
                             }){

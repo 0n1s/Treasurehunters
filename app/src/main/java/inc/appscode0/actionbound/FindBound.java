@@ -2,6 +2,7 @@ package inc.appscode0.actionbound;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,6 +31,7 @@ public class FindBound extends AppCompatActivity {
     RelativeLayout mRelativeLayout;
     private Context mContext;
     Dialog login223 ;
+    public static SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,9 +149,24 @@ public class FindBound extends AppCompatActivity {
                                     startActivity(new Intent(FindBound.this, Categories.class));
                                     break;
                                 case 2:
-                                    startActivity(new Intent(FindBound.this, BoundActivity.class).
-                                            putExtra("activity_name","My Bounds").
-                                            putExtra("search_field","personal"));
+
+                                  sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+                                  String user_id=sharedpreferences.getString("user_id","null");
+
+                                   // Toast.makeText(FindBound.this, user_id, Toast.LENGTH_SHORT).show();
+                                  if(user_id.equals("null"))
+                                  {
+                                      Toast.makeText(FindBound.this, "Please log in first", Toast.LENGTH_SHORT).show();
+                                  }
+                                  else
+                                  {
+                                      startActivity(new Intent(FindBound.this, BoundActivity.class).
+                                              putExtra("activity_name","My Bounds").
+                                              putExtra("search_field",user_id));
+                                  }
+
+
 
                                     break;
                                 case 3:
